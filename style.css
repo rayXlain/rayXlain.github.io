@@ -6,6 +6,16 @@
     z-index: 1000;
     min-width: 300px;
     margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.search-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
 }
 
 .search-dropdown a {
@@ -63,13 +73,13 @@
 }
 
 @font-face {
-    font-family: 'Compacta BT CYR Correct';
-    src: url('compactabtcyrcorrect_roman.otf') format('opentype');
+    font-family: 'Montserrat-SemiBold';
+    src: url('Montserrat-SemiBold.ttf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 * {
-    font-family: 'Compacta BT CYR Correct', sans-serif;
+    font-family: 'Montserrat-SemiBold', sans-serif;
     font-size: clamp(12px, 2vw + 1rem, 20px);
 }

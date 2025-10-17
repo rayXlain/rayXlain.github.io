@@ -141,13 +141,17 @@ function showGroupDropdown() {
         `;
         searchInput.parentNode.appendChild(dropdown);
     }
-    dropdown.style.display = 'block';
+    dropdown.classList.add('show');
 }
 
 function hideGroupDropdown() {
     const dropdown = document.querySelector('.search-dropdown');
     if (dropdown) {
-        dropdown.style.display = 'none';
+        dropdown.classList.remove('show');
+        // Delay hiding to allow animation to complete
+        setTimeout(() => {
+            dropdown.style.display = 'none';
+        }, 300);
     }
 }
 
