@@ -97,14 +97,33 @@ function displayComplexes(group) {
     }
 }
 
-// Handle search input
+// Handle search input with Fuse.js
 const searchInput = document.querySelector('.search-input');
 const complexContainer = document.getElementById('complex-container');
 
+// List of searchable terms
+const searchTerms = ['группа здоровья'];
+
+// Fuse options
+const fuseOptions = {
+    includeScore: true,
+    threshold: 0.4, // Adjust for fuzziness (lower = stricter)
+    keys: []
+};
+
+// Create Fuse instance
+const fuse = new Fuse(searchTerms, fuseOptions);
+
 searchInput.addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    if (query === 'группа здоровья') {
-        showGroupDropdown();
+    const query = this.value.trim();
+    if (query) {
+        const results = fuse.search(query);
+        if (results.length > 0) {
+            showGroupDropdown();
+        } else {
+            hideGroupDropdown();
+            complexContainer.innerHTML = '';
+        }
     } else {
         hideGroupDropdown();
         complexContainer.innerHTML = '';

@@ -6,19 +6,20 @@
     <title>Крутая поисковая строка</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(45deg, #ff66b2, #ed0b4e, #ff005d);
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff66b2, #ed0b74, #ff00cc);
             margin: 0;
             font-family: 'Poppins', sans-serif;
             flex-direction: column;
         }
 
-        .glass-text { font-size: 36px; font-weight: bold; color: rgba(255, 255, 255, 0.5); text-align: center; margin-bottom: 30px; backdrop-filter: blur(10px); padding: 20px; border-radius: 10px; width: 60%; transition: all 1s ease-out;}
+        .glass-text { font-size: 36px; font-weight: bold; color: rgba(255, 255, 255, 0.5); text-align: center; margin-bottom: 30px; backdrop-filter: blur(10px); padding: 20px; border-radius: 10px; width: 100%; transition: all 1s ease-out;}
 
         .glass-text:hover {
             color: rgba(255, 255, 255, 1);
@@ -130,6 +131,7 @@
     </style>
 </head>
 <body>
+    <img src="1.png" width="300px">
     <h1 class="glass-text">FitHealth39</h1>
     <div class="search-container">
         <input type="text" class="search-input" placeholder="Введите запрос...">
