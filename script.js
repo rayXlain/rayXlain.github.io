@@ -164,6 +164,90 @@ function hideGroupDropdown() {
     }
 }
 
+// Authentication functions
+document.addEventListener('DOMContentLoaded', function() {
+    const auth = window.firebaseAuth;
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const logoutBtn = document.getElementById('logout-btn');
+    const searchContainer = document.querySelector('.search-container');
+    const complexContainer = document.getElementById('complex-container');
+
+    // Show login form
+    document.getElementById('show-login').addEventListener('click', function() {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+    });
+
+    // Show register form
+    document.getElementById('show-register').addEventListener('click', function() {
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+    });
+
+    // Login
+    document.getElementById('login-btn').addEventListener('click', function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        window.signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                console.log('Logged in:', userCredential.user);
+                loginForm.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                searchContainer.style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Login error:', error);
+                alert('Ошибка входа: ' + error.message);
+            });
+    });
+
+    // Register
+    document.getElementById('register-btn').addEventListener('click', function() {
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        window.createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                console.log('Registered:', userCredential.user);
+                registerForm.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                searchContainer.style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Register error:', error);
+                alert('Ошибка регистрации: ' + error.message);
+            });
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', function() {
+        window.signOut(auth).then(() => {
+            console.log('Logged out');
+            logoutBtn.style.display = 'none';
+            searchContainer.style.display = 'none';
+            complexContainer.innerHTML = '';
+            loginForm.style.display = 'block';
+        }).catch((error) => {
+            console.error('Logout error:', error);
+        });
+    });
+
+    // Auth state observer
+    window.onAuthStateChanged(auth, (user) => {
+        const blurOverlay = document.querySelector('.blur-overlay');
+        if (user) {
+            blurOverlay.classList.add('hidden');
+            logoutBtn.style.display = 'block';
+            searchContainer.style.display = 'block';
+        } else {
+            blurOverlay.classList.remove('hidden');
+            logoutBtn.style.display = 'none';
+            searchContainer.style.display = 'none';
+            complexContainer.innerHTML = '';
+        }
+    });
+});
+
 // Event listeners for group selection
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('group-option')) {
@@ -176,5 +260,7 @@ document.addEventListener('click', function(e) {
         hideGroupDropdown();
     }
 });
+
+
 
 
