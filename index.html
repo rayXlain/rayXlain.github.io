@@ -3,182 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitHealth39</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>FitHealth39 — ЛФК, но это рейв</title>
+    <meta name="description" content="Комплексы упражнений для II и III группы здоровья на каждый месяц. Под бит.">
+    <meta name="theme-color" content="#12001c">
+    <link rel="icon" href="1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(45deg, #ff66b2, #ed0b74, #ff00cc);
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            flex-direction: column;
-        }
-
-        .glass-text { font-size: 36px; font-weight: bold; color: rgba(255, 255, 255, 0.5); text-align: center; margin-bottom: 30px; backdrop-filter: blur(10px); padding: 20px; border-radius: 10px; width: 100%; transition: all 1s ease-out;}
-
-        .glass-text:hover {
-            color: rgba(255, 255, 255, 1);
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            padding: 15px 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-input {
-            border: none;
-            outline: none;
-            font-size: 16px;
-            padding: 12px 20px;
-            width: 350px;
-            border-radius: 30px;
-            background: #f8f8f8;
-            color: #333;
-            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease-out;
-        }
-
-        .search-input:hover {
-            box-shadow: inset 0 14px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: #999;   
-        }
-
-        .search-input:focus {
-            background: #fff;
-            outline: none;
-            box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-button {
-            background: linear-gradient(135deg, #ff66b2, #ff3399);
-            color: white;
-            font-size: 16px;
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            margin-top: 10px;
-            border-radius: 10px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .active-link {
-            color: #ff3399;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-
-
-        .search-dropdown a {
-            color: #333;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            border-radius: 10px;
-        }
-
-        .search-dropdown a:hover {
-            background-color: rgba(255, 102, 178, 0.1);
-        }
-    </style>
+    <script type="module" src="js/main.js"></script>
 </head>
 <body>
-    <div class="blur-overlay">
-        <div id="auth-container">
-            <div id="login-form" style="display: block;">
-                <input type="email" id="login-email" placeholder="Email">
-                <input type="password" id="login-password" placeholder="Пароль">
-                <button id="login-btn">Войти</button>
-                <button id="show-register">Регистрация</button>
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div id="cursor" aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-ring"></div></div>
+
+    <!-- ЗАГРУЗКА -->
+    <section id="boot" class="screen" aria-label="Загрузка">
+        <div class="boot-box">
+            <pre id="boot-log" aria-live="polite"></pre>
+            <div id="boot-enter" class="boot-enter" hidden>
+                <p class="boot-q">КАК ВХОДИМ?</p>
+                <button type="button" class="btn-mega" data-enter="sound">🔊 СО ЗВУКОМ</button>
+                <button type="button" class="btn-ghost" data-enter="mute">🔇 ТИХО</button>
             </div>
-            <div id="register-form" style="display: none;">
-                <input type="email" id="register-email" placeholder="Email">
-                <input type="password" id="register-password" placeholder="Пароль">
-                <button id="register-btn">Зарегистрироваться</button>
-                <button id="show-login">Войти</button>
+        </div>
+        <p class="boot-skip" id="boot-skip">нажми любую клавишу, чтобы пропустить</p>
+    </section>
+
+    <!-- ВХОД -->
+    <section id="gate" class="screen" hidden aria-labelledby="gate-title">
+        <div class="gate-card" id="gate-card">
+            <div class="gate-scan" aria-hidden="true"></div>
+            <svg class="finger" viewBox="0 0 100 120" aria-hidden="true">
+                <g fill="none" stroke-linecap="round" stroke-width="3.2">
+                    <path d="M50 10c-22 0-38 17-38 40v14"/>
+                    <path d="M88 64V50c0-23-16-40-38-40"/>
+                    <path d="M22 88V50c0-16 12-29 28-29s28 13 28 29v24"/>
+                    <path d="M32 100V50c0-10 8-18 18-18s18 8 18 18v36"/>
+                    <path d="M42 108V50c0-5 3-8 8-8s8 3 8 8v46"/>
+                    <path d="M50 54v60"/>
+                    <path d="M78 86v14"/>
+                    <path d="M12 76v8"/>
+                </g>
+            </svg>
+            <h2 id="gate-title" class="gate-title glitch-once">БИОМЕТРИЧЕСКИЙ ШЛЮЗ</h2>
+            <p class="gate-sub" id="gate-sub">Доступ к телу — только своим</p>
+            <div class="tabs" role="tablist" aria-label="Режим">
+                <button type="button" role="tab" id="tab-login" aria-selected="true" data-mode="login">ВХОД</button>
+                <button type="button" role="tab" id="tab-register" aria-selected="false" data-mode="register">РЕГИСТРАЦИЯ</button>
             </div>
+            <form id="auth-form" novalidate>
+                <label class="field">
+                    <span>EMAIL</span>
+                    <input type="email" id="auth-email" autocomplete="email" required placeholder="ты@качалка.рф">
+                </label>
+                <label class="field">
+                    <span>ПАРОЛЬ</span>
+                    <input type="password" id="auth-password" autocomplete="current-password" required minlength="6" placeholder="••••••">
+                </label>
+                <button type="submit" id="auth-submit" class="btn-mega">ОТСКАНИРОВАТЬ ТЕЛО</button>
+                <button type="button" id="auth-reset" class="btn-link">забыл пароль?</button>
+                <p id="auth-msg" class="auth-msg" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ПРИЛОЖЕНИЕ -->
+    <div id="app" hidden>
+        <header class="hud">
+            <a href="#top" class="hud-logo" aria-label="Наверх"><span class="mini-heart" aria-hidden="true"></span><span>FH39</span></a>
+            <div class="hud-xp" id="hud-xp" title="Опыт">
+                <span class="hud-lvl" id="hud-lvl">LVL 1</span>
+                <span class="hud-title" id="hud-title">Диванный кадет</span>
+                <span class="xp-bar" aria-hidden="true"><span id="xp-fill"></span></span>
+                <span class="hud-streak" id="hud-streak" title="Серия дней с тренировкой">🔥 0</span>
+            </div>
+            <div class="hud-actions">
+                <button type="button" class="hud-btn" id="btn-search" aria-label="Поиск (Ctrl+K)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><span class="hide-sm"> ПОИСК</span></button>
+                <button type="button" class="hud-btn" id="btn-beat" aria-pressed="false" aria-label="Бит"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="hide-sm"> БИТ</span></button>
+                <button type="button" class="hud-btn danger" id="btn-logout">ВЫЙТИ</button>
+            </div>
+        </header>
+
+        <main id="main">
+            <section class="hero" id="top">
+                <div class="heart-wrap" id="heart-wrap">
+                    <svg class="orbit" viewBox="0 0 300 300" aria-hidden="true">
+                        <defs><path id="orbit-path" d="M150,150 m-128,0 a128,128 0 1,1 256,0 a128,128 0 1,1 -256,0"/></defs>
+                        <text><textPath href="#orbit-path">FITHEALTH39 ✦ ЗДОРОВЬЕ ✦ СИЛА ✦ ЛФК ✦ РЕЙВ ✦ 39 РЕГИОН ✦ </textPath></text>
+                    </svg>
+                    <button type="button" class="heart" id="heart" aria-label="Сердце FitHealth39. Не жми на него слишком часто.">
+                        <span class="heart-layer l1"></span>
+                        <span class="heart-layer l2"></span>
+                        <span class="heart-layer l0"></span>
+                    </button>
+                </div>
+                <h1 class="title" id="title" aria-label="FitHealth39">FitHealth39</h1>
+                <p class="tagline" aria-live="off"><span id="tagline">ЛФК, но это рейв</span><span class="caret" aria-hidden="true">_</span></p>
+                <button type="button" class="search-trigger" id="search-trigger">
+                    <span class="st-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span>
+                    <span class="st-text">ЧТО КАЧАЕМ СЕГОДНЯ?</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+            </section>
+
+            <div class="ticker" aria-hidden="true">
+                <div class="ticker-row"><div class="ticker-track" id="ticker-a"></div></div>
+                <div class="ticker-row rev"><div class="ticker-track" id="ticker-b"></div></div>
+            </div>
+
+            <section class="block" id="groups" aria-labelledby="groups-title">
+                <h2 class="section-title" id="groups-title"><span class="sn">01</span>ВЫБЕРИ ГРУППУ ЗДОРОВЬЯ</h2>
+                <div class="group-cards">
+                    <button type="button" class="gcard" data-group="II" aria-pressed="false">
+                        <span class="gcard-shine" aria-hidden="true"></span>
+                        <span class="gcard-num" aria-hidden="true">II</span>
+                        <span class="gcard-name">Вторая группа здоровья</span>
+                        <span class="gcard-desc">В целом здоров, но есть небольшие отклонения. Каждый месяц — новый комплекс.</span>
+                        <span class="gcard-go">ВЫБРАТЬ →</span>
+                    </button>
+                    <button type="button" class="gcard" data-group="III" aria-pressed="false">
+                        <span class="gcard-shine" aria-hidden="true"></span>
+                        <span class="gcard-num" aria-hidden="true">III</span>
+                        <span class="gcard-name">Третья группа здоровья</span>
+                        <span class="gcard-desc">Хронические заболевания в стадии компенсации. Комплексы под опору, сердце, зрение и дыхание.</span>
+                        <span class="gcard-go">ВЫБРАТЬ →</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="block" id="program" hidden aria-labelledby="program-title">
+                <h2 class="section-title" id="program-title"><span class="sn">02</span>КРУТИ ПЛАСТИНКУ МЕСЯЦЕВ</h2>
+                <div class="program-grid">
+                    <div class="deck">
+                        <div class="vinyl" id="vinyl" tabindex="0" role="slider" aria-label="Месяц" aria-valuemin="1" aria-valuemax="12">
+                            <div class="vinyl-disc" aria-hidden="true"></div>
+                            <div class="vinyl-ring" aria-hidden="true"></div>
+                            <div class="vinyl-center">
+                                <span class="vinyl-group" id="vinyl-group">II</span>
+                                <span class="vinyl-month" id="vinyl-month">Январь</span>
+                                <span class="vinyl-now" id="vinyl-now">СЕЙЧАС</span>
+                            </div>
+                            <div class="vinyl-needle" aria-hidden="true">▼</div>
+                        </div>
+                        <div class="deck-controls">
+                            <button type="button" class="btn-ghost sm" id="month-prev" aria-label="Предыдущий месяц"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+                            <button type="button" class="btn-ghost sm" id="month-now">СЕЙЧАС</button>
+                            <button type="button" class="btn-ghost sm" id="month-next" aria-label="Следующий месяц"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+                        </div>
+                        <p class="deck-hint">крути пластинку мышкой, пальцем или колёсиком</p>
+                    </div>
+                    <div class="complexes" id="complexes" aria-live="polite"></div>
+                </div>
+                <p class="disclaimer" id="disclaimer" hidden>⚠️ При хронических заболеваниях согласуй нагрузку с врачом. Если что-то болит — стоп, это не слабость, это мозг.</p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>сделано в 39 регионе с <span class="beat-heart">♥</span> и лёгкой болью в пояснице</p>
+            <p class="konami" aria-hidden="true">↑ ↑ ↓ ↓ ← → ← → B A</p>
+        </footer>
+    </div>
+
+    <!-- ПОИСК -->
+    <div id="palette" class="overlay palette" hidden role="dialog" aria-modal="true" aria-label="Поиск">
+        <div class="palette-box">
+            <div class="palette-head">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+                <input class="palette-input" type="text" placeholder="спина, глаза, март, бит…" aria-label="Что ищем" role="combobox" aria-expanded="true" aria-controls="palette-list" autocomplete="off" spellcheck="false">
+                <kbd>Esc</kbd>
+            </div>
+            <ul class="palette-list" id="palette-list" role="listbox"></ul>
         </div>
     </div>
 
-    <img src="1.png" width="300px">
-    <h1 class="glass-text">FitHealth39</h1>
+    <!-- ТРЕНИРОВКА -->
+    <div id="workout" class="overlay workout" hidden role="dialog" aria-modal="true" aria-labelledby="wo-title" tabindex="-1">
+        <div class="wo-panel">
+            <button type="button" class="wo-close" aria-label="Закрыть">✕</button>
+            <div class="wo-media">
+                <img id="wo-img" alt="" title="Нажми, чтобы увеличить">
+                <div class="wo-series" aria-label="Части комплекса"></div>
+            </div>
+            <div class="wo-side">
+                <p class="wo-cat" id="wo-cat"></p>
+                <h2 class="wo-title" id="wo-title"></h2>
+                <p class="wo-note" id="wo-note" hidden></p>
+                <div class="wo-timer">
+                    <svg viewBox="0 0 120 120" aria-hidden="true">
+                        <circle cx="60" cy="60" r="54" class="wo-track"/>
+                        <circle cx="60" cy="60" r="54" class="wo-progress" id="wo-progress"/>
+                    </svg>
+                    <div class="wo-time" id="wo-time" role="timer">15:00</div>
+                </div>
+                <div class="wo-durations" role="radiogroup" aria-label="Длительность">
+                    <button type="button" role="radio" data-min="5" aria-checked="false">5 мин</button>
+                    <button type="button" role="radio" data-min="10" aria-checked="false">10 мин</button>
+                    <button type="button" role="radio" data-min="15" aria-checked="true">15 мин</button>
+                    <button type="button" role="radio" data-min="20" aria-checked="false">20 мин</button>
+                </div>
+                <div class="wo-controls">
+                    <button type="button" class="btn-mega" id="wo-start">ПОГНАЛИ</button>
+                    <button type="button" class="btn-ghost" id="wo-stop" disabled>СТОП</button>
+                </div>
+                <p class="wo-hype" id="wo-hype" aria-live="polite"></p>
+            </div>
+        </div>
+    </div>
+    <div class="wo-countdown" id="wo-countdown" aria-hidden="true"></div>
 
-    <button id="logout-btn" style="display: none;">Выйти</button>
-
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="Введите запрос...">
+    <!-- ПРОСМОТР КАРТИНКИ -->
+    <div id="lightbox" class="overlay lightbox" hidden role="dialog" aria-modal="true" aria-label="Просмотр комплекса">
+        <div class="lb-stage"><img id="lb-img" alt=""></div>
+        <button type="button" class="lb-btn lb-close" aria-label="Закрыть">✕</button>
+        <button type="button" class="lb-btn lb-prev" aria-label="Предыдущая часть"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="lb-btn lb-next" aria-label="Следующая часть"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        <p class="lb-hint">клик — зум, тяни — двигай, Esc — закрыть</p>
     </div>
 
-    <div id="complex-container"></div>
+    <!-- LEVEL UP -->
+    <div id="levelup" class="levelup" hidden aria-live="assertive">
+        <div class="lu-rays" aria-hidden="true"></div>
+        <p class="lu-top">LEVEL UP</p>
+        <p class="lu-title" id="lu-title"></p>
+    </div>
 
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+    <div id="flash" class="flash" aria-hidden="true"></div>
 
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyC_B3PV_kh09VxW9qjkaaN3rxYq2qZCI9Y",
-        authDomain: "fithealth-f4285.firebaseapp.com",
-        projectId: "fithealth-f4285",
-        storageBucket: "fithealth-f4285.firebasestorage.app",
-        messagingSenderId: "943397255581",
-        appId: "1:943397255581:web:a325d1af4172ac0dd15774"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-
-      // Initialize Firebase Authentication and get a reference to the service
-      const auth = getAuth(app);
-
-      // Export auth for use in other scripts
-      window.firebaseAuth = auth;
-      window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-      window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-      window.signOut = signOut;
-      window.onAuthStateChanged = onAuthStateChanged;
-    </script>
-    <script src="script.js"></script>
+    <noscript><p class="noscript">Без JavaScript мышцы не качаются. Включи его.</p></noscript>
 </body>
 </html>
